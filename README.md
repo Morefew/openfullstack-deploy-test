@@ -19,7 +19,7 @@ Before running, ensure you have the following installed:
 
    ```bash
    git clone https://github.com/Morefew/openfullstack-part3.git
-   cd openfullstack-part3/src/backend
+   cd openfullstack-part3/api/backend
    ```
 
 2. Install dependencies:

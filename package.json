@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "notes app backend",
-  "main": "src/backend/index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node src/backend/index.js"
+    "start": "node api/index.js"
   },
   "author": "Lenny Gonzalez",
   "license": "ISC",
