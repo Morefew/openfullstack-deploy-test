@@ -4,8 +4,6 @@
   "description": "notes app backend",
   "main": "src/backend/index.js",
   "scripts": {
-    "build": "vite build",
-    "server": "node src/backend/index.js",
     "start": "node src/backend/index.js"
   },
   "author": "Lenny Gonzalez",
@@ -16,7 +14,7 @@
     "express": "^4.21.2",
     "morgan": "^1.10.0"
   },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
+  "engines": {
+    "node": "20.x"
   }
 }
