@@ -5,7 +5,7 @@ Full Stack course. It provides a RESTful API for managing contacts in a phoneboo
 
 ## Deployed version
 
-The deployed version of this app is available at [https://phonebook-backend.vercel.app/](https://phonebook-backend.vercel.app/).
+The deployed version of this app is available at [https://openstack-b820c.web.app/](https://openstack-b820c.web.app//).
 
 ## Prerequisites
 

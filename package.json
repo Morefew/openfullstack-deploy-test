@@ -5,7 +5,7 @@
   "main": "phonebook/backend/index.js",
   "scripts": {
     "build": "vite build",
-    "server": "nodemon phonebook/backend/index.js",
+    "server": "node phonebook/backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lenny Gonzalez",
