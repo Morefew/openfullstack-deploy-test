@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "notes app backend",
-  "main": "phonebook/backend/index.js",
+  "main": "src/backend/index.js",
   "scripts": {
     "build": "vite build",
-    "server": "node phonebook/backend/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node src/backend/index.js",
+    "start": "node src/backend/index.js"
   },
   "author": "Lenny Gonzalez",
   "license": "ISC",
