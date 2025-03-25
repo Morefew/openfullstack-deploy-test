@@ -4,6 +4,7 @@
   "description": "notes app backend",
   "main": "api/index.js",
   "scripts": {
+    "build": "vite build --outDir dist",
     "start": "node api/index.js"
   },
   "author": "Lenny Gonzalez",
