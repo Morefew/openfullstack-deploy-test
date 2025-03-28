@@ -11,8 +11,6 @@ const allowedOrigins = [
   'https://openfullstack-deploy-test.vercel.app/',
   // local development URL
   'http://localhost:5173',
-  // Database URL
-  process.env.MONGODB_URI
 ];
 
 
