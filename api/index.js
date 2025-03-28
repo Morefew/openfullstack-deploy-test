@@ -120,7 +120,7 @@ app.put('/api/persons/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-app.post('/api/persons', (req, res, next) => {
+app.post('/api/persons/', (req, res, next) => {
   const {name, phone} = req.body;
   console.log('Body en post route: ',req.body);
 
