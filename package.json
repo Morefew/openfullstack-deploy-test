@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "notes app backend",
   "main": "api/index.js",
+  "type": "module",
   "scripts": {
     "build": "vite build --outDir dist",
     "start": "node api/index.js"
@@ -13,9 +14,13 @@
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "mongoose": "^8.13.1",
     "morgan": "^1.10.0"
   },
   "engines": {
     "node": "20.x"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7"
   }
 }
