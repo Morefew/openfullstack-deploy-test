@@ -1,6 +1,8 @@
 import express from 'express'
+import mongoose from 'mongoose';
 import Entries from './models/entrie.js'
 import cors from 'cors'
+import 'dotenv/config';
 // Logger
 import morgan from 'morgan'
 
