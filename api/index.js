@@ -4,9 +4,46 @@ import cors from 'cors'
 // Logger
 import morgan from 'morgan'
 
+const allowedOrigins = [
+  'https://openfullstack-deploy-test.vercel.app/', //  production frontend URL
+  'http://localhost:5173' // local development URL
+];
+
+
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
+
+/ Database connection
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
+mongoose.connection.on('error', err => {
+  console.error('MongoDB connection error:', err);
+});
+
 
 // Logger configuration
 app.use(morgan(function (tokens, req, res) {
