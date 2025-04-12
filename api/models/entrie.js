@@ -6,5 +6,4 @@ const phonebookSchema = new mongoose.Schema({
   phone: String,
 })
 
-// default export mongoose.model('Entries', phonebookSchema)
 export default mongoose.model('Entries', phonebookSchema)

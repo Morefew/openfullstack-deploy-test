@@ -8,7 +8,7 @@ import morgan from 'morgan'
 
 const allowedOrigins = [
   //  production frontend URL
-  'https://openfullstack-deploy-test.vercel.app/',
+  'https://openfullstack-deploy-test.vercel.app',
   // local development URL
   'http://localhost:5173',
 ];
@@ -17,16 +17,21 @@ const allowedOrigins = [
 const app = express()
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., server-to-server requests)
+      if (!origin) return callback(null, true);
+      // Normalize origin by removing trailing slash
+      const normalizedOrigin = origin.replace(/\/$/, '');
+      if (allowedOrigins.some((allowed) => allowed === normalizedOrigin)) {
+        return callback(null, true);
+      }
       callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
-}));
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
+  })
+);
 
 // Database connection
 const connectDB = async () => {
@@ -109,7 +114,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 app.put('/api/persons/:id', (req, res, next) => {
 
   const {name, phone} = req.body;
-  console.log('Body en update route: ',req.body);
+  console.log('Body en update route: ', req.body);
 
   const newEntry = {
     name,
@@ -125,10 +130,13 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons/', (req, res, next) => {
   const {name, phone} = req.body;
-  console.log('Body en post route: ',req.body);
+  console.log('Body en post route: ', req.body);
 
   if (!name) {
     return res.status(400).json({error: "Name is required"})
+  }
+  if(name.length <1){
+    return res.status(400).json({error: "Name minimum length is 3 characters"})
   }
   if (!phone) {
     return res.status(400).json({error: "Number is required"})
@@ -160,10 +168,11 @@ const errorHandler = (err, req, res, next) => {
   next(err);
 }
 
-
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+const serverPort = process.env.PORT;
+
+app.listen(serverPort, () => {
+  console.log(`Servidor corriendo en puerto ${serverPort}`);
+  console.log(`http://localhost:${serverPort}`);
+});
