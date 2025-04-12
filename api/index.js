@@ -29,15 +29,6 @@ app.use(
         return callback(null, true);
       }
 
-      // Allow Vercel preview URLs
-      if (
-        normalizedOrigin.match(
-          /^https:\/\/openfullstack-deploy-test-[a-z0-9]+-morefews-projects\.vercel\.app$/
-        )
-      ) {
-        return callback(null, true);
-      }
-
       // Reject any other origin
       callback(new Error(`Not allowed by CORS: ${normalizedOrigin}`));
     },
