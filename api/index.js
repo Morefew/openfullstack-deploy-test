@@ -7,8 +7,12 @@ import 'dotenv/config';
 import morgan from 'morgan'
 
 const allowedOrigins = [
-  'https://openfullstack-deploy-test.vercel.app/', //  production frontend URL
-  'http://localhost:5173' // local development URL
+  //  production frontend URL
+  'https://openfullstack-deploy-test.vercel.app/',
+  // local development URL
+  'http://localhost:5173',
+  // Database URL
+  process.env.MONGODB_URI
 ];
 
 
@@ -119,6 +123,7 @@ app.put('/api/persons/:id', (req, res, next) => {
     })
     .catch(err => next(err))
 })
+//TODO revisar POST y DELETE
 
 app.post('/api/persons/', (req, res, next) => {
   const {name, phone} = req.body;
