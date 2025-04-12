@@ -9,6 +9,7 @@ import morgan from 'morgan'
 const allowedOrigins = [
   //  production frontend URL
   'https://openfullstack-deploy-test.vercel.app',
+  'https://openfullstack-deploy-test-7f0g4ew7v-morefews-projects.vercel.app',
   // local development URL
   'http://localhost:5173',
 ];
