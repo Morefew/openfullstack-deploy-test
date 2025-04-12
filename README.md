@@ -5,7 +5,7 @@ Full Stack course. It provides a RESTful API for managing contacts in a phoneboo
 
 ## Deployed version
 
-The deployed version of this app is available at [Vercel](https://openfullstack-deploy-test-gwahk1vfx-morefews-projects.vercel.app/).
+The deployed version of this app is available at [Vercel](https://openfullstack-deploy-test-26m0zhc9u-morefews-projects.vercel.app/).
 
 ## Prerequisites
 
