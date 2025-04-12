@@ -9,30 +9,41 @@ import morgan from 'morgan'
 const allowedOrigins = [
   //  production frontend URL
   'https://openfullstack-deploy-test.vercel.app',
-  'https://openfullstack-deploy-test-morefews-projects.vercel.app/',
-  'https://openfullstack-deploy-test-morefew-morefews-projects.vercel.app/',
-  'https://openfullstack-deploy-test-7f0g4ew7v-morefews-projects.vercel.app',
-  // local development URL
   'http://localhost:5173',
 ];
 
 
 const app = express()
 
-app.use(cors({
+app.use(
+  cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (e.g., server-to-server requests)
+      // Allow requests with no origin (e.g., server-to-server or Postman)
       if (!origin) return callback(null, true);
+
       // Normalize origin by removing trailing slash
       const normalizedOrigin = origin.replace(/\/$/, '');
-      if (allowedOrigins.some((allowed) => allowed === normalizedOrigin)) {
+
+      // Allow stable origins
+      if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
-      callback(new Error('Not allowed by CORS'));
+
+      // Allow Vercel preview URLs
+      if (
+        normalizedOrigin.match(
+          /^https:\/\/openfullstack-deploy-test-[a-z0-9]+-morefews-projects\.vercel\.app$/
+        )
+      ) {
+        return callback(null, true);
+      }
+
+      // Reject any other origin
+      callback(new Error(`Not allowed by CORS: ${normalizedOrigin}`));
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: false,
+    credentials: false, // Set to true if cookies or auth headers are needed
   })
 );
 
