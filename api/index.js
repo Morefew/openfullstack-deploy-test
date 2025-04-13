@@ -10,9 +10,9 @@ const allowedOrigins = [
   //  production frontend URL
   'https://openfullstack-deploy-test.vercel.app',
   'https://openfullstack-deploy-test-morefews-projects.vercel.app',
+  'https://openfullstack-deploy-test-git-main-morefews-projects.vercel.app/',
   'http://localhost:5173',
 ];
-
 
 const app = express()
 
@@ -27,6 +27,13 @@ app.use(
 
       // Allow stable origins
       if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
+
+      // Allow Vercel preview URLs
+      if (normalizedOrigin.match(
+        /^https:\/\/openfullstack-deploy-test-[a-z0-9]+-morefews-projects\.vercel\.app$/)
+      ) {
         return callback(null, true);
       }
 
@@ -126,7 +133,11 @@ app.put('/api/persons/:id', (req, res, next) => {
     name,
     phone
   }
-  Entries.findByIdAndUpdate(req.params.id, newEntry, {new: true, runValidators: true, context: 'query'})
+  Entries.findByIdAndUpdate(req.params.id, newEntry, {
+    new: true,
+    runValidators: true,
+    context: 'query'
+  })
     .then(updatedEntry => {
       res.json(updatedEntry)
     })
