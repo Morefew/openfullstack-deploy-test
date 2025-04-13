@@ -112,7 +112,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 app.delete('/api/persons/:id', (req, res, next) => {
   Entries.findByIdAndDelete(req.params.id)
     .then(result => {
-      res.status(204).end()
+      res.status(204).json(`${req.params.id} Deleted Successfully`)
     })
     .catch(err => next(err))
 })
@@ -137,16 +137,6 @@ app.put('/api/persons/:id', (req, res, next) => {
 app.post('/api/persons/', (req, res, next) => {
   const {name, phone} = req.body;
   console.log('Body en post route: ', req.body);
-
-  if (!name) {
-    return res.status(400).json({error: "Name is required"})
-  }
-  if(name.length <1){
-    return res.status(400).json({error: "Name minimum length is 3 characters"})
-  }
-  if (!phone) {
-    return res.status(400).json({error: "Number is required"})
-  }
 
   Entries.findOne({'name': name})
     .then(existingEntry => {
