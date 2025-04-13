@@ -126,13 +126,12 @@ app.put('/api/persons/:id', (req, res, next) => {
     name,
     phone
   }
-  Entries.findByIdAndUpdate(req.params.id, newEntry, {new: true})
+  Entries.findByIdAndUpdate(req.params.id, newEntry, {new: true, runValidators: true, context: 'query'})
     .then(updatedEntry => {
       res.json(updatedEntry)
     })
-    .catch(err => next(err))
+    .catch(error => next(error))
 })
-//TODO revisar POST y DELETE
 
 app.post('/api/persons/', (req, res, next) => {
   const {name, phone} = req.body;

@@ -13,7 +13,6 @@ const phonebookSchema = new mongoose.Schema({
     },
     required: [true, 'User phone number is required']
   }
-  // phone: String,
 })
 
 export default mongoose.model('Entries', phonebookSchema)
