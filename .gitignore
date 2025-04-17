@@ -27,3 +27,4 @@ node_modules
 .firebaserc
 firebase.json
 .vercel
+eslint.config.js

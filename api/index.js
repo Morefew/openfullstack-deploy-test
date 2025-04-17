@@ -1,8 +1,8 @@
 import express from 'express'
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 import Entries from './models/entrie.js'
 import cors from 'cors'
-import 'dotenv/config';
+import 'dotenv/config'
 // Logger
 import morgan from 'morgan'
 
@@ -12,7 +12,7 @@ const allowedOrigins = [
   'https://openfullstack-deploy-test-morefews-projects.vercel.app',
   'https://openfullstack-deploy-test-git-main-morefews-projects.vercel.app/',
   'http://localhost:5173',
-];
+]
 
 const app = express()
 
@@ -20,48 +20,48 @@ app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (e.g., server-to-server or Postman)
-      if (!origin) return callback(null, true);
+      if (!origin) return callback(null, true)
 
       // Normalize origin by removing trailing slash
-      const normalizedOrigin = origin.replace(/\/$/, '');
+      const normalizedOrigin = origin.replace(/\/$/, '')
 
       // Allow stable origins
       if (allowedOrigins.includes(normalizedOrigin)) {
-        return callback(null, true);
+        return callback(null, true)
       }
 
       // Allow Vercel preview URLs
       if (normalizedOrigin.match(
         /^https:\/\/openfullstack-deploy-test-[a-z0-9]+-morefews-projects\.vercel\.app$/)
       ) {
-        return callback(null, true);
+        return callback(null, true)
       }
 
       // Reject any other origin
-      callback(new Error(`Not allowed by CORS: ${normalizedOrigin}`));
+      callback(new Error(`Not allowed by CORS: ${normalizedOrigin}`))
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false, // Set to true if cookies or auth headers are needed
   })
-);
+)
 
 // Database connection
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI)
-    console.log('MongoDB connected successfully');
+    console.log('MongoDB connected successfully')
   } catch (err) {
-    console.error('MongoDB connection error:', err);
-    process.exit(1);
+    console.error('MongoDB connection error:', err)
+    process.exit(1)
   }
-};
+}
 
-connectDB();
+connectDB()
 
 mongoose.connection.on('error', err => {
-  console.error('MongoDB connection error:', err);
-});
+  console.error('MongoDB connection error:', err)
+})
 
 
 // Logger configuration
@@ -92,7 +92,7 @@ app.get('/api/persons/', (req, res) => {
 })
 
 app.get('/info', async (req, res) => {
-  const date = new Date().toLocaleDateString("de");
+  const date = new Date().toLocaleDateString('de')
   try {
     const entriesTotal = await Entries.countDocuments({})
     if (!entriesTotal) {
@@ -126,8 +126,8 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.put('/api/persons/:id', (req, res, next) => {
 
-  const {name, phone} = req.body;
-  console.log('Body en update route: ', req.body);
+  const { name, phone } = req.body
+  console.log('Body en update route: ', req.body)
 
   const newEntry = {
     name,
@@ -145,40 +145,40 @@ app.put('/api/persons/:id', (req, res, next) => {
 })
 
 app.post('/api/persons/', (req, res, next) => {
-  const {name, phone} = req.body;
-  console.log('Body en post route: ', req.body);
+  const { name, phone } = req.body
+  console.log('Body en post route: ', req.body)
 
-  Entries.findOne({'name': name})
+  Entries.findOne({ 'name': name })
     .then(existingEntry => {
       if (existingEntry) {
-        return res.status(400).json({error: "Name already exists"});
+        return res.status(400).json({ error: 'Name already exists' })
       } else {
-        const newEntry = new Entries({name, phone});
+        const newEntry = new Entries({ name, phone })
         return newEntry.save()
           .then(savedEntry => {
-            res.status(201).json(savedEntry);
-          });
+            res.status(201).json(savedEntry)
+          })
       }
     })
     .catch(error => next(error))
-});
+})
 
 //
 const errorHandler = (err, req, res, next) => {
-  console.log(err.message);
+  console.log(err.message)
   if (err.name === 'CastError') {
-    return res.status(400).json({error: 'Malformed id'})
+    return res.status(400).json({ error: 'Malformed id' })
   } else if (err.name === 'ValidationError') {
-    return res.status(400).json({error: err.message})
+    return res.status(400).json({ error: err.message })
   }
-  next(err);
+  next(err)
 }
 
 app.use(errorHandler)
 
-const serverPort = process.env.PORT;
+const serverPort = process.env.PORT
 
 app.listen(serverPort, () => {
-  console.log(`Servidor corriendo en puerto ${serverPort}`);
-  console.log(`http://localhost:${serverPort}`);
-});
+  console.log(`Servidor corriendo en puerto ${serverPort}`)
+  console.log(`http://localhost:${serverPort}`)
+})
